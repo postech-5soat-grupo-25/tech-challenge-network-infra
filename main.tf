@@ -86,7 +86,7 @@ resource "aws_route_table_association" "public_subnet_association" {
 resource "aws_db_subnet_group" "postgres_subnet_group" {
   name       = "${local.prefix}-rds-subnet-group"
   subnet_ids = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
-  depends_on = [ aws_subnet.private_subnet_1, aws_subnet.private_subnet_2 ]
+  depends_on = [aws_subnet.private_subnet_1, aws_subnet.private_subnet_2]
 }
 
 # Grupo de segurança para o banco de dados PostgreSQL, definindo regras de acesso
