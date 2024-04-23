@@ -8,6 +8,11 @@ locals {
   prefix = "postech-5soat-grupo-25"
 }
 
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 # Cria uma VPC (Virtual Private Cloud) para prover um espaço de rede isolado na AWS
 resource "aws_vpc" "vpc" {
   cidr_block           = var.vpc_cidr
@@ -23,20 +28,29 @@ resource "aws_subnet" "public_subnet" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.public_subnet_cidr
   map_public_ip_on_launch = true
-  availability_zone       = var.availability_zone
+  availability_zone       = data.aws_availability_zones.available.names[0]
   tags = {
     Name = "${local.prefix}-public-subnet"
   }
 }
 
-# Sub-rede privada para recursos que não devem ser acessados diretamente da internet
-resource "aws_subnet" "private_subnet" {
+# Sub-redes privadas para recursos que não devem ser acessados diretamente da internet
+resource "aws_subnet" "private_subnet_1" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = var.private_subnet_cidr
+  cidr_block              = var.private_subnet_cidr_1
   map_public_ip_on_launch = false
-  availability_zone       = var.availability_zone
+  availability_zone       = data.aws_availability_zones.available.names[0]
   tags = {
-    Name = "${local.prefix}-private-subnet"
+    Name = "${local.prefix}-private-subnet-1"
+  }
+}
+resource "aws_subnet" "private_subnet_2" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.private_subnet_cidr_2
+  map_public_ip_on_launch = false
+  availability_zone       = data.aws_availability_zones.available.names[1]
+  tags = {
+    Name = "${local.prefix}-private-subnet-2"
   }
 }
 
@@ -71,7 +85,7 @@ resource "aws_route_table_association" "public_subnet_association" {
 # Grupo de sub-redes com acesso ao banco de dados PostgreSQL
 resource "aws_db_subnet_group" "postgres_subnet_group" {
   name       = "${local.prefix}-rds-subnet-group"
-  subnet_ids = [aws_subnet.private_subnet.id]
+  subnet_ids = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
 }
 
 # Grupo de segurança para o banco de dados PostgreSQL, definindo regras de acesso
