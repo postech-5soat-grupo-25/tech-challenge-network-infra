@@ -14,9 +14,14 @@ variable "public_subnet_cidr" {
   default     = "10.0.1.0/24"
 }
 
-variable "private_subnet_cidr" {
-  description = "O bloco CIDR para a sub-rede privada. Recursos nesta sub-rede não podem ser acessados diretamente da internet."
+variable "private_subnet_cidr_1" {
+  description = "O bloco CIDR para a primeira sub-rede privada. Recursos nesta sub-rede não podem ser acessados diretamente da internet."
   default     = "10.0.2.0/24"
+}
+
+variable "private_subnet_cidr_2" {
+  description = "O bloco CIDR para a segunda sub-rede privada. Recursos nesta sub-rede não podem ser acessados diretamente da internet."
+  default     = "10.0.3.0/24"
 }
 
 variable "availability_zone" {
