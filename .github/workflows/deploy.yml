@@ -1,0 +1,42 @@
+name: '🚀 Terraform Network Deploy'
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.tf'
+  pull_request:
+    paths:
+      - '**/*.tf'
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+jobs:
+  terraform:
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
+
+    - name: Run terraform init
+      run: terraform init
+
+    - name: Run terraform format check
+      run: terraform fmt --check
+
+    - name: Run terraform plan
+      run: terraform plan
+
+    - name: Run terraform apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform apply --auto-approve
