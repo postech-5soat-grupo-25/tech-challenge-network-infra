@@ -1,4 +1,4 @@
-# Network | PosTech 5SOAT • Grupo 25
+# `network` | PosTech 5SOAT • Grupo 25
 
 Este repositório contém a configuração necessária para o deploy de recursos de rede na AWS usando Terraform. O objetivo é automatizar a criação de uma Virtual Private Cloud (VPC), sub-redes públicas e privadas, e configurações de segurança, facilitando o gerenciamento e a manutenção da infraestrutura de rede.
 
