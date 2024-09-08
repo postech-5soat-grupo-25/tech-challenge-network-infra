@@ -16,6 +16,10 @@ resource "aws_security_group" "db_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  depends_on = [
+    module.vpc
+  ]
+
 }
 
 
