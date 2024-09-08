@@ -1,6 +1,6 @@
 resource "aws_security_group" "db_security_group" {
   name   = "tech_challenge_db_sg"
-  vpc_id = module.vpc.id
+  vpc_id = module.vpc.vpc_id
 
   ingress {
     from_port   = 0
