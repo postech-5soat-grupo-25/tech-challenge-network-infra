@@ -1,3 +1,7 @@
+provider "aws" {
+  region = var.aws_region
+}
+
 terraform {
   backend "s3" {
     bucket         = "postech-5soat-grupo-25-tfstate"
