@@ -16,6 +16,8 @@ module "vpc" {
 
   name = "tech-challenge-vpc"
 
+  map_public_ip_on_launch = true
+  
   cidr = var.vpc_cidr
   azs  = slice(data.aws_availability_zones.available.names, 0, 3)
 
